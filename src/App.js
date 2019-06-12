@@ -1,26 +1,67 @@
 import React from 'react';
-import logo from './logo.svg';
+import Form from './components/Form'
+import List from './components/List'
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+    state={
+        inputValue: "",
+        todos: [
+
+        ]
+    }
+    
+
+handleChange = (event) => {
+    this.setState({
+      inputValue : event.target.value
+    })
+
 }
 
-export default App;
+handleClick = (index) => {
+ console.log(index)
+ const todos = this.state.todos
+ todos[index].done = !todos[index].done
+ this.setState({
+   todos
+ })
+} 
+
+onSubmit= (event) => {
+  event.preventDefault()
+  const newToDo = {
+    value : this.state.inputValue,
+    done : false
+  }
+
+  const todos = this.state.todos
+  todos.push(newToDo)
+  this.setState({
+    todos : todos,
+    inputValue:''
+    
+  })
+}
+
+render(){
+  return (
+    <div className="App">
+      <Form inputValue = {this.state.inputValue}
+            handleChange = {this.handleChange}
+            onSubmit = {this.onSubmit}
+              />
+      <List 
+      todos = {this.state.todos}
+      handleClick = {this.handleClick}/>
+     
+    </div>
+  )
+}
+}
+  
+
+
+export default App
